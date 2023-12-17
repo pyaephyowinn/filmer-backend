@@ -1,5 +1,16 @@
-### GET
+### Sign Up
 POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "name": "alice",
+  "email": "alice@gmail.com",
+  "password": "alice123"
+}
+
+
+### Login
+POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {

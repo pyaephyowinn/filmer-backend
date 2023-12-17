@@ -16,10 +16,9 @@ export class UsersService {
     return createdUser;
   }
 
-  async findOne() {
-    return {
-      name: 'alice',
-      email: 'alice@gmail.com',
-    };
+  findOne(email: string) {
+    return this.userModel.findOne({
+      email,
+    });
   }
 }
