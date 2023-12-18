@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { compare, genSalt, hash } from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dtos/login-dto';
@@ -6,7 +7,10 @@ import { SingUpDto } from './dtos/sign-up.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
   async signUp(user: SingUpDto) {
     // * ---- hash the password ----
 
@@ -43,12 +47,16 @@ export class AuthService {
     const match = await compare(user.password, foundUser.password);
     if (!match) throwCredentialError;
 
+    const token = await this.jwtService.signAsync({
+      id: foundUser.id,
+    });
+
     return {
       message: 'success',
       data: {
         name: foundUser.name,
         email: foundUser.email,
-        token: 'dummy-token',
+        token,
       },
     };
   }
