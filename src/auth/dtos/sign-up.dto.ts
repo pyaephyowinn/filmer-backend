@@ -9,7 +9,7 @@ export class SingUpDto {
 
   @IsString()
   @MinLength(8, {
-    message: 'Password must be at least 10 characters long',
+    message: 'Password must be at least 8 characters long',
   })
   password: string;
 }
