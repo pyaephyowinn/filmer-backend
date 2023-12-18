@@ -8,12 +8,9 @@ import { User } from 'src/schemas/user.schema';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async create(user: SingUpDto) {
+  create(user: SingUpDto) {
     const createdUser = new this.userModel(user);
-    await createdUser.save();
-
-    console.log('created a user');
-    return createdUser;
+    return createdUser.save();
   }
 
   findOne(email: string) {
