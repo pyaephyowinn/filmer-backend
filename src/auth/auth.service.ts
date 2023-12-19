@@ -23,12 +23,19 @@ export class AuthService {
       password: hashedPassword,
     });
 
+    const token = await this.jwtService.signAsync({
+      id: createdUser.id,
+      name: createdUser.name,
+      email: createdUser.email,
+    });
+
     return {
       message: 'success',
       data: {
+        id: createdUser.id,
         name: createdUser.name,
         email: createdUser.email,
-        token: 'dummy-token',
+        token,
       },
     };
   }
@@ -61,5 +68,9 @@ export class AuthService {
         token,
       },
     };
+  }
+
+  generateToken(obj: Object) {
+    return this.jwtService.signAsync(obj);
   }
 }
