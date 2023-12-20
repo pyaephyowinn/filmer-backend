@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { DATABASE_URL } from './config/env.config';
 import { FilmsModule } from './films/films.module';
+import { ImagesModule } from './images/images.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { FilmsModule } from './films/films.module';
     UsersModule,
     AuthModule,
     FilmsModule,
+    ImagesModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
