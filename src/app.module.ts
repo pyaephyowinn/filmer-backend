@@ -9,6 +9,7 @@ import { DATABASE_URL } from './config/env.config';
 import { FilmsModule } from './films/films.module';
 import { ImagesModule } from './images/images.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ShootingsModule } from './shootings/shootings.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     FilmsModule,
     ImagesModule,
     CloudinaryModule,
+    ShootingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
