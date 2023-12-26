@@ -1,31 +1,41 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
-  UploadedFiles,
 } from '@nestjs/common';
-import { ShootingsService } from './shootings.service';
-import { UpdateShootingDto } from './dto/update-shooting.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { UpdateShootingDto } from './dto/update-shooting.dto';
+import { ShootingsService } from './shootings.service';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Controller('shootings')
 export class ShootingsController {
-  constructor(private readonly shootingsService: ShootingsService) {}
+  constructor(
+    private readonly shootingsService: ShootingsService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post()
   @UseGuards(AuthGuard)
   @UseInterceptors(
     FileFieldsInterceptor([{ name: 'imageFiles', maxCount: 10 }]),
   )
-  create(@UploadedFiles() files: Express.Multer.File[]) {
+  async create(@UploadedFiles() files: { imageFiles: Express.Multer.File[] }) {
     console.log('files', files);
+    const uploadPromise = files.imageFiles.map((file) =>
+      this.cloudinaryService.uploadFile(file),
+    );
+    const res = await Promise.all(uploadPromise);
+    console.log('res', res);
+
     return this.shootingsService.create();
   }
 
