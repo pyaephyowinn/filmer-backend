@@ -12,12 +12,12 @@ export class FilmsService {
   create(film: CreateFilmDto, userId: string) {
     return this.filmModel.create({
       ...film,
-      userId,
+      user: userId,
     });
   }
 
   findAll() {
-    return this.filmModel.find({}).populate('userId', 'name');
+    return this.filmModel.find({}).populate('user', 'name');
   }
 
   findOne(id: number) {

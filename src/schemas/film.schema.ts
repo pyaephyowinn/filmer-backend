@@ -10,7 +10,7 @@ export class Film {
   filmUrl: string;
 
   @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  userId: User;
+  user: User;
 }
 
 export type FilmDocument = HydratedDocument<Film>;
