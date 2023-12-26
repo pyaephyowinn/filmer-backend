@@ -10,6 +10,7 @@ import { FilmsModule } from './films/films.module';
 import { ImagesModule } from './images/images.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ShootingsModule } from './shootings/shootings.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ShootingsModule } from './shootings/shootings.module';
     ImagesModule,
     CloudinaryModule,
     ShootingsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
