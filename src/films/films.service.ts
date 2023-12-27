@@ -13,11 +13,47 @@ export class FilmsService {
     return this.filmModel.create({
       ...film,
       user: userId,
+      category: film.categoryId,
     });
   }
 
-  findAll() {
-    return this.filmModel.find({}).populate('user', 'name');
+  async findAll() {
+    const data = await this.filmModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'categories',
+            localField: 'category',
+            foreignField: '_id',
+            as: 'category',
+          },
+        },
+        {
+          $unwind: {
+            path: '$category',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $group: {
+            _id: '$category._id',
+            name: { $first: '$category.name' },
+            description: { $first: '$category.description' },
+            image: { $first: '$category.image' },
+            films: {
+              $push: {
+                id: '$_id',
+                filmUrl: '$filmUrl',
+              },
+            },
+          },
+        },
+      ])
+      .exec();
+
+    return data;
+
+    return this.filmModel.find({}).populate('user category', 'name');
   }
 
   findOne(id: number) {
