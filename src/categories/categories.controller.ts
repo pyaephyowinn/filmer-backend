@@ -31,6 +31,8 @@ export class CategoriesController {
     @Body() createCategoryDto: CreateCategoryDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    if (!file) return this.categoriesService.create(createCategoryDto);
+
     const createdImage = await this.cloudinaryService.uploadFile(file);
     return this.categoriesService.create(
       createCategoryDto,
