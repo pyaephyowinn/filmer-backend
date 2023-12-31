@@ -13,9 +13,17 @@ export class UsersService {
     return createdUser.save();
   }
 
-  findOne(email: string) {
+  findOne({ email, id }: { email?: string; id?: string }) {
+    if (id) {
+      return this.userModel.findById(id);
+    }
+
     return this.userModel.findOne({
       email,
     });
+  }
+
+  updatePassword(id: string, password: string) {
+    return this.userModel.findByIdAndUpdate(id, { password }, { new: true });
   }
 }

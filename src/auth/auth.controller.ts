@@ -10,6 +10,7 @@ import { SingUpDto } from './dtos/sign-up.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login-dto';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { ChangePasswordDto } from './dtos/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -31,6 +32,18 @@ export class AuthController {
     return {
       message: 'success',
       user: req.user,
+    };
+  }
+
+  @Post('change-password')
+  @UseGuards(AuthGuard)
+  async changePassword(
+    @Request() req,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    await this.authServices.changePassword(req.user.id, changePasswordDto);
+    return {
+      message: 'success',
     };
   }
 }

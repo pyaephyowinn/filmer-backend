@@ -1,9 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare, genSalt, hash } from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dtos/login-dto';
 import { SingUpDto } from './dtos/sign-up.dto';
+import { ChangePasswordDto } from './dtos/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,12 +18,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async signUp(user: SingUpDto) {
-    // * ---- hash the password ----
-
-    const SALT_ROUND = 10;
-    const salt = await genSalt(SALT_ROUND);
-    const hashedPassword = await hash(user.password, salt);
-
+    const hashedPassword = await this.generateHashPassword(user.password);
     const createdUser = await this.usersService.create({
       ...user,
       password: hashedPassword,
@@ -42,17 +43,14 @@ export class AuthService {
 
   async login(user: LoginDto) {
     const throwCredentialError = () => {
-      throw new HttpException(
-        'Username or password is incorrect',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException('Username or password is incorrect');
     };
 
-    const foundUser = await this.usersService.findOne(user.email);
-    if (!foundUser) throwCredentialError;
+    const foundUser = await this.usersService.findOne({ email: user.email });
+    if (!foundUser) throwCredentialError();
 
     const match = await compare(user.password, foundUser.password);
-    if (!match) throwCredentialError;
+    if (!match) throwCredentialError();
 
     const token = await this.jwtService.signAsync({
       id: foundUser.id,
@@ -70,7 +68,24 @@ export class AuthService {
     };
   }
 
+  async changePassword(id: string, user: ChangePasswordDto) {
+    const foundUser = await this.usersService.findOne({ id });
+    const match = await compare(user.password, foundUser.password);
+
+    if (!match) throw new BadRequestException('Password is incorrect');
+    const hashedNewPassword = await this.generateHashPassword(user.newPassword);
+
+    return this.usersService.updatePassword(id, hashedNewPassword);
+  }
+
   generateToken(obj: Object) {
     return this.jwtService.signAsync(obj);
+  }
+
+  async generateHashPassword(password: string) {
+    const SALT_ROUND = 10;
+    const salt = await genSalt(SALT_ROUND);
+    const hashedPassword = await hash(password, salt);
+    return hashedPassword;
   }
 }
