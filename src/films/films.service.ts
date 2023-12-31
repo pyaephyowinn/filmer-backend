@@ -52,19 +52,13 @@ export class FilmsService {
       .exec();
 
     return data;
-
-    return this.filmModel.find({}).populate('user category', 'name');
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} film`;
+  update(id: string, updateFilmDto: UpdateFilmDto) {
+    return this.filmModel.findByIdAndUpdate(id, updateFilmDto, { new: true });
   }
 
-  update(id: number, updateFilmDto: UpdateFilmDto) {
-    return `This action updates a #${id} film`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} film`;
+  remove(id: string) {
+    return this.filmModel.findByIdAndDelete(id);
   }
 }

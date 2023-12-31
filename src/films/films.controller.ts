@@ -29,18 +29,25 @@ export class FilmsController {
     return this.filmsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.filmsService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFilmDto: UpdateFilmDto) {
-    return this.filmsService.update(+id, updateFilmDto);
+  async update(@Param('id') id: string, @Body() updateFilmDto: UpdateFilmDto) {
+    const updatedFilm = await this.filmsService.update(id, updateFilmDto);
+    return {
+      message: 'success',
+      data: {
+        updatedFilm,
+      },
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.filmsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const deletedFilm = await this.filmsService.remove(id);
+    return {
+      message: 'success',
+      data: {
+        id: deletedFilm.value.id,
+      },
+    };
   }
 }
