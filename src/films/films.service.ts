@@ -17,6 +17,10 @@ export class FilmsService {
     });
   }
 
+  findOne(id: string) {
+    return this.filmModel.findById(id).populate('category');
+  }
+
   async findAll() {
     const data = await this.filmModel
       .aggregate([
@@ -61,5 +65,9 @@ export class FilmsService {
 
   remove(id: string) {
     return this.filmModel.findByIdAndDelete(id);
+  }
+
+  removeAll(): Promise<any> {
+    return this.filmModel.deleteMany({});
   }
 }

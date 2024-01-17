@@ -29,6 +29,11 @@ export class FilmsController {
     return this.filmsService.findAll();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.filmsService.findOne(id);
+  }
+
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateFilmDto: UpdateFilmDto) {
     const updatedFilm = await this.filmsService.update(id, updateFilmDto);
@@ -47,6 +52,17 @@ export class FilmsController {
       message: 'success',
       data: {
         id: deletedFilm.value.id,
+      },
+    };
+  }
+
+  @Delete()
+  async removeAll() {
+    const deletedFilms = await this.filmsService.removeAll();
+    return {
+      message: 'success',
+      data: {
+        deletedFilms,
       },
     };
   }
