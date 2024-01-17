@@ -49,6 +49,7 @@ export class FilmsService {
           },
         },
       ])
+      .sort({ name: 1 })
       .exec();
 
     return data;
