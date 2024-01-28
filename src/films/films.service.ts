@@ -60,7 +60,16 @@ export class FilmsService {
   }
 
   update(id: string, updateFilmDto: UpdateFilmDto) {
-    return this.filmModel.findByIdAndUpdate(id, updateFilmDto, { new: true });
+    return this.filmModel.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          filmUrl: updateFilmDto.filmUrl,
+          category: updateFilmDto.categoryId,
+        },
+      },
+      { new: true },
+    );
   }
 
   remove(id: string) {
