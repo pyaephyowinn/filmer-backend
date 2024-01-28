@@ -47,12 +47,9 @@ export class FilmsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    const deletedFilm = await this.filmsService.remove(id);
+    await this.filmsService.remove(id);
     return {
       message: 'success',
-      data: {
-        id: deletedFilm.value.id,
-      },
     };
   }
 
