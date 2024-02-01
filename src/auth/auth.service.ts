@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare, genSalt, hash } from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
@@ -78,7 +73,7 @@ export class AuthService {
     return this.usersService.updatePassword(id, hashedNewPassword);
   }
 
-  generateToken(obj: Object) {
+  generateToken(obj: object) {
     return this.jwtService.signAsync(obj);
   }
 
