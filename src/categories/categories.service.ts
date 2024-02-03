@@ -11,7 +11,10 @@ export class CategoriesService {
     @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto, imageUrl?: string) {
+  async create(
+    createCategoryDto: Omit<CreateCategoryDto, 'imageFile'>,
+    imageUrl?: string,
+  ) {
     return this.categoryModel.create({ ...createCategoryDto, image: imageUrl });
   }
 
@@ -24,6 +27,7 @@ export class CategoriesService {
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    console.log(updateCategoryDto);
     return `This action updates a #${id} category`;
   }
 
