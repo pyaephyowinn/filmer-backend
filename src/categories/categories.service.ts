@@ -22,16 +22,33 @@ export class CategoriesService {
     return this.categoryModel.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  findOne(id: string) {
+    return this.categoryModel.findById(id);
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    console.log(updateCategoryDto);
-    return `This action updates a #${id} category`;
+  update({
+    id,
+    updateCategoryDto,
+    image,
+  }: {
+    id: string;
+    updateCategoryDto: UpdateCategoryDto;
+    image?: string;
+  }) {
+    if (!image) {
+      return this.categoryModel.findByIdAndUpdate(id, {
+        name: updateCategoryDto.name,
+        description: updateCategoryDto.description,
+      });
+    }
+    return this.categoryModel.findByIdAndUpdate(id, {
+      name: updateCategoryDto.name,
+      description: updateCategoryDto.description,
+      image: image,
+    });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} category`;
   }
 }
