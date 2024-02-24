@@ -4,11 +4,13 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Category } from 'src/schemas/category.schema';
 import { Model } from 'mongoose';
+import { Film } from 'src/schemas/film.schema';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<Category>,
+    @InjectModel(Film.name) private filmModel: Model<Film>,
   ) {}
 
   async create(
@@ -49,6 +51,14 @@ export class CategoriesService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} category`;
+    this.filmModel.updateMany(
+      {
+        category: id,
+      },
+      {
+        category: null,
+      },
+    );
+    return this.categoryModel.findByIdAndDelete(id);
   }
 }

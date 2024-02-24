@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Category, CategorySchema } from 'src/schemas/category.schema';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { Film, FilmSchema } from 'src/schemas/film.schema';
+import { Category, CategorySchema } from 'src/schemas/category.schema';
 
 @Module({
   controllers: [CategoriesController],
@@ -13,6 +14,10 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
       {
         name: Category.name,
         schema: CategorySchema,
+      },
+      {
+        name: Film.name,
+        schema: FilmSchema,
       },
     ]),
   ],

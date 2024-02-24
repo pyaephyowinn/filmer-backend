@@ -20,7 +20,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 @Controller('categories')
 export class CategoriesController {
   constructor(
-    private readonly categoriesService: CategoriesService,
+    private categoriesService: CategoriesService,
     private cloudinaryService: CloudinaryService,
   ) {}
 
