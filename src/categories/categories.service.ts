@@ -50,7 +50,7 @@ export class CategoriesService {
     });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     this.filmModel.updateMany(
       {
         category: id,
@@ -59,6 +59,10 @@ export class CategoriesService {
         category: null,
       },
     );
+    const foundCategory = await this.categoryModel.findById(id);
+    if (foundCategory.image) {
+    }
+
     return this.categoryModel.findByIdAndDelete(id);
   }
 }
