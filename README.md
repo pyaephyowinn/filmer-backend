@@ -1,35 +1,65 @@
-## Description uuu
+# Filmer Dashboard Backend
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Getting Started
 
-## Installation
-
-```bash
-$ pnpm install
-```
-
-## Running the app
+First, install dependencies:
 
 ```bash
-# development
-$ pnpm run start
+    pnpm install
 
-# watch mode
-$ pnpm run start:dev
+    or
 
-# production mode
-$ pnpm run start:prod
+    npm install
 ```
 
-## Test
+And run the development server:
 
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
 ```
+    pnpm start:dev
+
+    or
+
+    npm run start:dev
+```
+
+## Features
+
+1. **Video CRUD**
+2. **Image CRUD**
+3. **Category CRUD**
+
+## Structure
+
+```
+App
+└── src
+    ├── assets
+    │   ├── styles
+    │   ├── images
+    ├── <moduleName> for auth, categories, cloudinary, films, users
+    │   ├── dto             (TypeORM dto)
+    │   ├── moduleName.controller            (core component dir)
+    │   ├── moduleName.module          (layout component dir)
+    │   └── moduleName.service         (app sidebar component)
+    ├── config
+    │   └── env             (to upload env variables)
+    ├── guards              (layout components)
+    │   └── auth.guard.ts             (to upload env variables)
+    ├── schemas
+    │   ├── category.schema.ts
+    │   ├── film.schema.ts
+    │   ├── image.schema.ts
+    │   └── category.schema.ts
+    ├── app.controller.ts            (api services)
+    ├── app.module.ts               (global state)
+    └── main.ts               (shared functions dir)
+```
+
+## Pull Request
+
+Prefix for your pull requests.
+
+- feat: A new feature
+- fix: A bug fix
+- chore: Other changes that don't modify src
+- refactor: A code change that neither fixes a bug nor adds a feature
