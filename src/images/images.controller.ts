@@ -11,14 +11,10 @@ import {
 import { ImagesService } from './images.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Controller('images')
 export class ImagesController {
-  constructor(
-    private readonly imagesService: ImagesService,
-    private cloudinaryService: CloudinaryService,
-  ) {}
+  constructor(private readonly imagesService: ImagesService) {}
 
   @Post()
   @UseGuards(AuthGuard)
